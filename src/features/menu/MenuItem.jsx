@@ -5,10 +5,15 @@ function MenuItem({ pizza }) {
 
   return (
     <li>
-      <img src={imageUrl} alt={name} />
+      <img
+        src={imageUrl}
+        alt={name}
+        style={{ width: "150px", height: "auto" }}
+      />
+
       <div>
         <p>{name}</p>
-        <p>{ingredients.join(', ')}</p>
+        <p>{ingredients.join(", ")}</p>
         <div>
           {!soldOut ? <p>{formatCurrency(unitPrice)}</p> : <p>Sold out</p>}
         </div>
