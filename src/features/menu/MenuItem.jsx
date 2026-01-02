@@ -1,10 +1,14 @@
+/* eslint-disable react/prop-types */
 import { formatCurrency } from "../../utils/helpers";
 import Button from "../../ui/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../cart/cartSlice";
+import { getCurrentQuantityById } from "../cart/cartSlice";
 
 function MenuItem({ pizza }) {
   const dispatch = useDispatch();
+
+  const currentQuantity = useSelector(getCurrentQuantityById(id));
 
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
 
@@ -19,7 +23,7 @@ function MenuItem({ pizza }) {
       totalPrice: unitPrice * 1,
     };
 
-    dispatch(addItem(newItem))
+    dispatch(addItem(newItem));
   }
 
   return (
@@ -55,5 +59,6 @@ function MenuItem({ pizza }) {
     </li>
   );
 }
+
 
 export default MenuItem;
