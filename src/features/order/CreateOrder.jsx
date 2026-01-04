@@ -5,6 +5,10 @@ import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import Button from "../../ui/Button";
 import { useSelector } from "react-redux";
+import { clearCart, getCart } from "../cart/cartSlice";
+import EmptyCart from "../cart/EmptyCart";
+import store from "../../store";
+
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -12,29 +16,31 @@ const isValidPhone = (str) =>
     str
   );
 
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+// const fakeCart = [
+//   {
+//     pizzaId: 12,
+//     name: "Mediterranean",
+//     quantity: 2,
+//     unitPrice: 16,
+//     totalPrice: 32,
+//   },
+//   {
+//     pizzaId: 6,
+//     name: "Vegetale",
+//     quantity: 1,
+//     unitPrice: 13,
+//     totalPrice: 13,
+//   },
+//   {
+//     pizzaId: 11,
+//     name: "Spinach and Mushroom",
+//     quantity: 1,
+//     unitPrice: 15,
+//     totalPrice: 15,
+//   },
+// ];
+
+// I am using fakeCart to test the order form UI before integrating Redux store
 
 function CreateOrder() {
   const navigation = useNavigation();
@@ -44,7 +50,11 @@ function CreateOrder() {
   const username = useSelector((state) => state.user.username);
 
   // const [withPriority, setWithPriority] = useState(false);
-  const cart = fakeCart;
+  // const cart = fakeCart;
+  const cart = useSelector(getCart);
+const totalCartPrice = useSelector(getTotalCartPrice)
+
+  if(!cart.length) return <EmptyCart />
 
   return (
     <div className="py-6 px-4">
@@ -68,9 +78,10 @@ function CreateOrder() {
           <label className="sm:basis-40">Phone number</label>
           <div className="grow">
             <input className="input w-full" type="tel" name="phone" required />
-            {formErrors?.phone && (
-              <p className="text-xs mt-2 text-red-700 bg-red=700 p-2 rounded-md">
-                {formErrors.phone}
+
+            {formErrors?.errors?.phone && (
+              <p className="text-xs mt-2 text-red-700 p-2 rounded-md">
+                {formErrors.errors.phone}
               </p>
             )}
           </div>
@@ -124,7 +135,7 @@ export async function action({ request }) {
     cart: JSON.parse(data.cart),
     priority: data.priority === "on",
   };
-
+ 
   const errors = {};
   if (!isValidPhone(order.phone)) {
     errors.phone = "Please provide a valid phone number";
@@ -135,11 +146,13 @@ export async function action({ request }) {
   }
 
   // //If no errors, create the order
-  // const newOrder = await createOrder(order);
+  const newOrder = await createOrder(order);
 
-  // return redirect(`/order/${newOrder.id}`);
+//Do not overuse
+  store.dispatch(clearCart());
+
+  return redirect(`/order/${newOrder.id}`);
   // // Send order to API or process it
-  return null;
 }
 
 export default CreateOrder;

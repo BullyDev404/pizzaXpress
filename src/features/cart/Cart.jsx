@@ -8,29 +8,36 @@ import { useSelector } from "react-redux";
 import { clearCart, getCart, getUsername } from "./cartSlice";
 
 
-const fakeCart = [
-  {
-    pizzaId: 12,
-    name: "Mediterranean",
-    quantity: 2,
-    unitPrice: 16,
-    totalPrice: 32,
-  },
-  {
-    pizzaId: 6,
-    name: "Vegetale",
-    quantity: 1,
-    unitPrice: 13,
-    totalPrice: 13,
-  },
-  {
-    pizzaId: 11,
-    name: "Spinach and Mushroom",
-    quantity: 1,
-    unitPrice: 15,
-    totalPrice: 15,
-  },
-];
+// const fakeCart = [
+//   {
+//     pizzaId: 12,
+//     name: "Mediterranean",
+//     quantity: 2,
+//     unitPrice: 16,
+//     totalPrice: 32,
+//   },
+//   {
+//     pizzaId: 6,
+//     name: "Vegetale",
+//     quantity: 1,
+//     unitPrice: 13,
+//     totalPrice: 13,
+//   },
+//   {
+//     pizzaId: 11,
+//     name: "Spinach and Mushroom",
+//     quantity: 1,
+//     unitPrice: 15,
+//     totalPrice: 15,
+//   },
+// ];
+
+
+
+
+
+// I am using fakeCart to test the cart UI before integrating Redux store
+
 
 function Cart() {
   const username = useSelector(getUsername) ;
@@ -65,3 +72,5 @@ function Cart() {
 }
 
 export default Cart;
+
+
