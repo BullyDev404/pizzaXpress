@@ -19,7 +19,7 @@ function CartOverview() {
     >
       <p className="text-stone-300 font-semibold space-x-4 sm:space-x-6">
         <span>{totalCartQuantity} pizzas</span>
-        <span>${formatCurrency(totalCartPrice)}</span>
+        <span>{formatCurrency(totalCartPrice)}</span>
       </p>
       <Link to="/cart">Open cart &rarr;</Link>
     </div>
